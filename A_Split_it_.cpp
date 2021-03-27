@@ -24,7 +24,7 @@ int main()
             int count = 0;
             bool isPossible = true;
 
-            for (int i = 0, j=n-1; i<n/2; i++, j--)
+            for (int i = 0, j=n-1; i<k; i++, j--)
             {
                 count++;
                 if (s[i] != s[j])

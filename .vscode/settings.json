@@ -15,5 +15,6 @@
         "any": "cpp",
         "system_error": "cpp",
         "ostream": "cpp"
-    }
+    },
+    "editor.fontSize": 14
 }
