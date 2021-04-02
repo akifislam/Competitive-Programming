@@ -14,7 +14,8 @@
         "vector": "cpp",
         "any": "cpp",
         "system_error": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "chrono": "cpp"
     },
-    "editor.fontSize": 14
+    "editor.fontSize": 17
 }
