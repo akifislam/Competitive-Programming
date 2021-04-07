@@ -160,6 +160,8 @@ void solve()
         cout << x << " ";
     }
     cout << endl;
+
+    cout<<ums.count(1)<<endl;
 }
 
 int32_t main()
