@@ -1,16 +1,16 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-04-08 17:24:59
-
+//Date: 2021-04-09 19:22:25
+ 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #include <ext/pb_ds/detail/standard_policies.hpp>
-
+ 
 using namespace __gnu_pbds;
 using namespace std;
 char gap = 32;
-
+ 
 template <typename T>
 ostream &operator<<(ostream &os, const vector<T> &v)
 {
@@ -19,13 +19,13 @@ ostream &operator<<(ostream &os, const vector<T> &v)
         os << gap << x;
     return os << '}';
 }
-
+ 
 template <typename A, typename B>
 ostream &operator<<(ostream &os, const pair<A, B> &p)
 {
     return os << '(' << p.first << gap << p.second << ')';
 }
-
+ 
 void dbg_out() { cerr << endl; }
 template <typename Head, typename... Tail>
 void dbg_out(Head H, Tail... T)
@@ -33,7 +33,7 @@ void dbg_out(Head H, Tail... T)
     cerr << ' ' << H;
     dbg_out(T...);
 }
-
+ 
 #ifdef AKIF
 #define dbg(...) cerr << '(' << #__VA_ARGS__ << ')' << ':', dbg_out(__VA_ARGS__)
 #else
@@ -59,34 +59,35 @@ typedef tree<
     ordered_set;
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
-
+ 
 void solve()
 {
-    string a;
-    string b;
-    cin >> a >> b;
-
-    int length_a = a.size();
-    int length_b = b.size();
-
-    string new_a = a;
-    string new_b = b;
-
-    int lcm_ab = lcm(length_a, length_b);
-    // cout << "LCM : " << lcm_ab << endl;
-
-    while (lcm_ab != new_a.size())
+    int r, input;
+    cin >> r;
+    int sum = 0;
+    vector<int> red;
+    for (int i = 0; i < r; i++)
     {
-        new_a += a;
+        cin >> input;
+        sum+=input;
+        red.pb(sum);
     }
-    while (lcm_ab != new_b.size())
+    int b;
+    cin >> b;
+    vector<int> blue;
+ 
+    sum = 0;
+    for (int i = 0; i < b; i++)
     {
-        new_b += b;
+        cin >> input;
+        sum+=input;
+        blue.pb(sum);
     }
-    if(new_a==new_b) cout<<new_a<<endl;
-    else cout<<-1<<endl;
+ 
+    cout<<max(0,*max_element(All(red))) + max(0,*max_element(All(blue)))<<endl;
+ 
 }
-
+ 
 int32_t main()
 {
     ios_base::sync_with_stdio(false);

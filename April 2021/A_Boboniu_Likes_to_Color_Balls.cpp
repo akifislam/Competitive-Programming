@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-04-08 17:24:59
+//Date: 2021-04-09 17:54:55
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,29 +62,58 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    string a;
-    string b;
-    cin >> a >> b;
-
-    int length_a = a.size();
-    int length_b = b.size();
-
-    string new_a = a;
-    string new_b = b;
-
-    int lcm_ab = lcm(length_a, length_b);
-    // cout << "LCM : " << lcm_ab << endl;
-
-    while (lcm_ab != new_a.size())
+    int n, c0 = 0, c1 = 0, c2 = 0, ave, ans = 0;
+    cin >> n;
+    int arr[n];
+    for (int i = 0; i < n; i++)
     {
-        new_a += a;
+        cin >> arr[i];
+        if (arr[i] % 3 == 0)
+            c0++;
+        else if (arr[i] % 3 == 1)
+            c1++;
+        else if (arr[i] % 3 == 2)
+            c2++;
     }
-    while (lcm_ab != new_b.size())
+
+    ave = (c0 + c1 + c2) / 3;
+    if (c0 > ave)
     {
-        new_b += b;
+        int c0excess = c0 - ave;
+        ans += c0excess;
+        c1 += c0excess;
     }
-    if(new_a==new_b) cout<<new_a<<endl;
-    else cout<<-1<<endl;
+    else
+    {
+        int c0less = ave - c0;
+        ans += c0less;
+        c2 -= c0less;
+    }
+    if (c1 > ave)
+    {
+        int c1excess = c1 - ave;
+        ans += c1excess;
+        c2 += c1excess;
+    }
+    else
+    {
+        int c1less = ave - c1;
+        ans += c1less;
+        c0 -= c1less;
+    }
+    if (c2 > ave)
+    {
+        int c2excess = c2 - ave;
+        ans += c2excess;
+        c0 += c2excess;
+    }
+    else
+    {
+        int c2less = ave - c2;
+        ans += c2less;
+        c1 -= c2less;
+    }
+    cout << ans << endl;
 }
 
 int32_t main()

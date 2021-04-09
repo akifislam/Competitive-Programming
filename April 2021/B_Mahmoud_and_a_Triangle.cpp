@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-04-08 17:24:59
+//Date: 2021-04-09 18:03:08
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,29 +62,29 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    string a;
-    string b;
-    cin >> a >> b;
+    int n;
+    cin >> n;
+    vector<ll> vec;
+    ll input;
 
-    int length_a = a.size();
-    int length_b = b.size();
-
-    string new_a = a;
-    string new_b = b;
-
-    int lcm_ab = lcm(length_a, length_b);
-    // cout << "LCM : " << lcm_ab << endl;
-
-    while (lcm_ab != new_a.size())
+    for (int i = 0; i < n; i++)
     {
-        new_a += a;
+        cin >> input;
+        vec.push_back(input);
     }
-    while (lcm_ab != new_b.size())
+    sort(All(vec));
+
+    // cout<<vec;
+
+    for (int i=1;i<n-1;i++)
     {
-        new_b += b;
+        if (vec[i-1]+vec[i]>vec[i+1])
+        {
+            cout << "YES";
+            return;
+        }
     }
-    if(new_a==new_b) cout<<new_a<<endl;
-    else cout<<-1<<endl;
+    cout<<"NO";
 }
 
 int32_t main()
@@ -94,7 +94,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();
