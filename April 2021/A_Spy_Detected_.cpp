@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-04-13 06:53:13
+//Date: 2021-04-10 20:36:36
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -60,53 +60,25 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
-namespace Prime
-{
-    using u64 = uint64_t;
-    // using u128 = __uint128_t;
-    int sieved = -1;
-    vi primeNumber;
-    vi status;
-    bool Check(int N, int Pos) { return (bool)(N & (1 << Pos)); }
-    int Set(int N, int Pos) { return N = (N | (1 << Pos)); }
-
-    void bitSieve(int mx)
-    {
-        sieved = mx;
-        status.resize((mx >> 5) + 2, 0);
-        int sq = (int)round(sqrt(mx));
-        primeNumber.push_back(2);
-        for (int i = 3; i <= sq; i = i + 2)
-        {
-            if (!Check(status[i >> 5], i & 31))
-            {
-                primeNumber.push_back(i);
-                for (int j = i * i; j <= mx; j += i << 1)
-                {
-                    status[j >> 5] = Set(status[j >> 5], j & 31);
-                }
-            }
-        }
-        sq++;
-        if (sq % 2 == 0)
-            sq++;
-        for (int i = sq; i < mx; i += 2)
-        {
-            if (!Check(status[i >> 5], i & 31))
-                primeNumber.push_back(i);
-        }
-    }
-}
-
-using namespace Prime;
-
 void solve()
 {
-    int N;
-    cin >> N;
-    int a = *lower_bound(primeNumber.begin(), primeNumber.end(), N+1);
-    int b = *lower_bound(primeNumber.begin(), primeNumber.end(), a+1);
-    cout << a * b << endl;
+    int n,input;
+    cin >> n;
+    vector<pair<int, int>> vec;
+    
+    for (int i = 1; i <= n; i++) {
+        cin>>input;
+        vec.pb(make_pair(input,i));
+    }
+    sort(All(vec));
+
+    int answer = -1;
+
+   if(vec[0].first!=vec[1].first) cout<<vec[0].second<<endl;
+   else cout<<vec[n-1].second<<endl;
+    
+
+
 }
 
 int32_t main()
@@ -115,7 +87,6 @@ int32_t main()
     cin.tie(0);
 #ifdef AKIF
 #endif
-    bitSieve(11000);
     int test = 1;
     cin >> test;
     while (test--)

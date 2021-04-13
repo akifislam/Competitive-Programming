@@ -102,11 +102,11 @@ using namespace Prime;
 
 void solve()
 {
-    int N;
+    ll N;
     cin >> N;
-    int a = *lower_bound(primeNumber.begin(), primeNumber.end(), N+1);
-    int b = *lower_bound(primeNumber.begin(), primeNumber.end(), a+1);
-    cout << a * b << endl;
+    ll index_of_first_prime = lower_bound(primeNumber.begin(), primeNumber.end(), N + 1) - primeNumber.begin();
+    ll index_of_second_prime = lower_bound(primeNumber.begin(), primeNumber.end(), primeNumber[index_of_first_prime] + N) - primeNumber.begin();
+    cout << primeNumber[index_of_first_prime] * primeNumber[index_of_second_prime] << endl;
 }
 
 int32_t main()
@@ -115,7 +115,7 @@ int32_t main()
     cin.tie(0);
 #ifdef AKIF
 #endif
-    bitSieve(11000);
+    bitSieve(25000);
     int test = 1;
     cin >> test;
     while (test--)

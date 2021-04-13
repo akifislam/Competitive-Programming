@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-04-13 06:53:13
+//Date: 2021-04-12 06:26:19
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -60,53 +60,63 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
-namespace Prime
+int N;
+string str;
+void remove_left1_right_0(int right_1, int left_0)
 {
-    using u64 = uint64_t;
-    // using u128 = __uint128_t;
-    int sieved = -1;
-    vi primeNumber;
-    vi status;
-    bool Check(int N, int Pos) { return (bool)(N & (1 << Pos)); }
-    int Set(int N, int Pos) { return N = (N | (1 << Pos)); }
-
-    void bitSieve(int mx)
+    //Removing Lefter 1s
+    for (int i = right_1 - 1; i >= 0; i--)
     {
-        sieved = mx;
-        status.resize((mx >> 5) + 2, 0);
-        int sq = (int)round(sqrt(mx));
-        primeNumber.push_back(2);
-        for (int i = 3; i <= sq; i = i + 2)
-        {
-            if (!Check(status[i >> 5], i & 31))
-            {
-                primeNumber.push_back(i);
-                for (int j = i * i; j <= mx; j += i << 1)
-                {
-                    status[j >> 5] = Set(status[j >> 5], j & 31);
-                }
-            }
-        }
-        sq++;
-        if (sq % 2 == 0)
-            sq++;
-        for (int i = sq; i < mx; i += 2)
-        {
-            if (!Check(status[i >> 5], i & 31))
-                primeNumber.push_back(i);
-        }
+        if (str[i] == '1')
+            str[i] = '*';
+        else
+            break;
+    }
+    //Removing Righter 0s
+    for (int i = left_0 + 1; i < N; i++)
+    {
+        if (str[i] == '0')
+            str[i] = '*';
+        else
+            break;
     }
 }
 
-using namespace Prime;
-
 void solve()
 {
-    int N;
     cin >> N;
-    int a = *lower_bound(primeNumber.begin(), primeNumber.end(), N+1);
-    int b = *lower_bound(primeNumber.begin(), primeNumber.end(), a+1);
-    cout << a * b << endl;
+
+    cin >> str;
+    int last_one_of_10 = -1;
+    for (int i = 1; i < N; i++)
+    {
+        if (str[i] == '0' && str[i - 1] == '1')
+        {   
+            last_one_of_10 = i-1;
+            remove_left1_right_0(i - 1, i);
+            // str[i-1]='*';
+        }
+    }
+
+    //Now My String will become alternating like : 101010101
+
+    // 10 10 (10)
+    str[last_one_of_10] ='*';
+    for (int i = last_one_of_10-1; i>0; i--)
+    {
+        if(str[i]=='0' && str[i-1]=='1'){
+            str[i]=str[i-1]='*';
+        }
+    }
+
+     
+    //Print
+    for (int i = 0; i < N; i++)
+    {
+        if(str[i]!='*') cout<<str[i];
+    }
+    cout<<endl;
+    
 }
 
 int32_t main()
@@ -115,7 +125,6 @@ int32_t main()
     cin.tie(0);
 #ifdef AKIF
 #endif
-    bitSieve(11000);
     int test = 1;
     cin >> test;
     while (test--)
