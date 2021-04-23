@@ -10,6 +10,16 @@
         "chrono": "cpp",
         "ostream": "cpp",
         "iostream": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "bitset": "cpp",
+        "optional": "cpp",
+        "algorithm": "cpp",
+        "random": "cpp",
+        "istream": "cpp",
+        "numeric": "cpp",
+        "ranges": "cpp",
+        "streambuf": "cpp",
+        "regex": "cpp",
+        "valarray": "cpp"
     }
 }
