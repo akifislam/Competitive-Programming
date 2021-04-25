@@ -1,2 +1,1 @@
-   int last;
-    visited[parent_node] = true;
+10
