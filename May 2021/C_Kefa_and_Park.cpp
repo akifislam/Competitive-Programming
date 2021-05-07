@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-04 15:33:01
+//Date: 2021-05-06 17:23:18
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -60,81 +60,66 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
-vector<vector<ll>> graph(50);
-vector<vector<ll>> weight(50);
-ll dist[501];
-ll n;
+const int MAX = 200005;
+vector<int> hasCat;
+vector<vector<int>> graph(1);
 
-void dijkstra(ll src)
+int answer = 0;
+int nodes, catLimit, cat = 0;
+
+vector<int> processed;
+
+void DFS(int src, int prev, int catCount)
 {
-    // Weight, Node
-    queue<pair<int, int>> Q;
-    Q.push({0, src});
 
-    // INT MAXing for Min Operation
-    for (int i = 0; i < n; i++)
-        dist[i] = INT_MAX;
+    if (processed[src])
+        return;
+    processed[src] = 1;
 
-    dist[src] = 0; //initializd
+    if (!hasCat[src])
+        catCount = 0;
+    else
+        catCount++;
 
-    while (!Q.empty())
+    if (catCount > catLimit)
+        return;
+
+    bool isLeaf = true;
+
+    for (int i = 0; i < graph[src].size(); i++)
     {
-        auto x = Q.front();
-        ll u = x.second; // Node Value
-        ll p = -x.first; // Node's Weight
-        Q.pop();
-
-        if (p > dist[u])
+        if (graph[src][i] == prev)
             continue;
-
-        for (int i = 0; i < graph[u].size(); i++)
-        {
-            ll v = graph[u][i];  // Node Value
-            ll w = weight[u][i]; // Node Weight
-
-            if (dist[v] > dist[u] + w)
-            {
-                dist[v] = dist[u] + w;
-                Q.push({-dist[v], v});
-            }
-        }
+        isLeaf = false;
+        if (!processed[graph[src][i]])
+            DFS(graph[src][i], src, catCount);
     }
+    if (isLeaf)
+        answer++;
 }
-
 void solve()
 {
-    ll m, n1, n2, w;
-    cin >> n >> m;
-    memset(dist, 0, sizeof(dist));
+    cin >> nodes >> catLimit;
+    graph.resize(nodes + 1);
+    hasCat.resize(nodes + 1, 0);
+    processed.resize(nodes + 1, 0);
 
-    graph.resize(n);
-    weight.resize(n);
-    graph.clear();
-    weight.clear();
-
-    for (int i = 0; i < m; i++)
+    for (int i = 1; i <= nodes; i++)
     {
-        cin >> n1 >> n2 >> w;
-
-        graph[n1].pb(n2);
-        graph[n2].pb(n1);
-
-        //Saving Weight
-        weight[n1].pb(w);
-        weight[n2].pb(w);
+        int input;
+        cin >> input;
+        hasCat[i] = input;
     }
-
-    ll src;
-    cin >> src;
-    dijkstra(src);
-
-    for (int i = 0; i < n; i++)
+    // cout<<hasCat<<endl;
+    int from, to;
+    for (int i = 0; i < nodes - 1; i++)
     {
-        if (dist[i] != INT_MAX)
-            cout << dist[i] << endl;
-        else
-            cout << "Impossible" << endl;
+        cin >> from >> to;
+        graph[from].push_back(to);
+        graph[to].push_back(from);
     }
+    DFS(1, 0, 0);
+    cout << answer << endl;
 }
 
 int32_t main()
@@ -144,7 +129,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin >> test;
     while (test--)
     {
         solve();
