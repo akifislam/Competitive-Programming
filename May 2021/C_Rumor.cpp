@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-07 01:34:29
+//Date: 2021-05-07 17:23:36
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -59,70 +59,58 @@ typedef tree<
     ordered_set;
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
+const int MAX = 100005;
 
-int dx[] = {+1, -1, +0, -0};
-int dy[] = {+0, -0, +1, -1};
-int c, r, k;
-char arr[501][501];
-bool visited[501][501];
+vector<ll> graph[MAX];
+ll gold[MAX];
+bool visited[MAX];
 
-bool valid(int x, int y)
+ll goldCount;
+
+void DFS(ll src)
 {
-    if (x >= 0 && x < c && y >= 0 && y < r && arr[x][y] == '.' && !visited[x][y])
-        return true;
-    else
-        return false;
-}
-void DFS(int i, int j)
-{
-    visited[i][j] = 1;
-    for (int k = 0; k < 4; k++)
-    {
-        int x = i + dx[k]; 
-        int y = j + dy[k];
-        // dbg_out(x,"S");
-        if (valid(x, y))
-            DFS(x, y);
-    }
-    if (k > 0)
-    {
-        arr[i][j] = 'X';
-        k--;
-    }
+    if (visited[src])
+        return;
+
+    visited[src] = true;
+    goldCount = min(goldCount, gold[src]);
+
+    for (auto x : graph[src])
+        DFS(x);
 }
 
 void solve()
 {
-    cin >> c >> r >> k;
+    ll N, groups;
+    cin >> N >> groups;
 
-    bool ok = false;
-    int si = -1;
-    int sj = -1;
-
-    for (int i = 0; i < c; i++)
+    for (int i = 1; i <= N; i++)
     {
-        for (int j = 0; j < r; j++)
+        cin >> gold[i];
+    }
+
+    int from, to;
+
+    for (int i = 0; i < groups; i++)
+    {
+        cin >> from >> to;
+        graph[from].push_back(to);
+        graph[to].push_back(from);
+    }
+
+    //Process
+    ll answer = 0;
+    for (int i = 1; i <= N; i++)
+    {
+
+        if (!visited[i])
         {
-            cin >> arr[i][j];
-            if (!ok && arr[i][j] == '.')
-            {
-                ok = true;
-                si = i;
-                sj = j;
-            }
+            goldCount = 1e9+10;
+            DFS(i);
+            answer+=goldCount;
         }
     }
-    DFS(si, sj);
-
-    for (int i = 0; i < c; i++)
-    {
-        for (int j = 0; j < r; j++)
-        {
-            cout<<arr[i][j];
-        }
-        cout<<endl;
-    }
-    cout<<endl;
+    cout << answer << endl;
 }
 
 int32_t main()
@@ -132,7 +120,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();

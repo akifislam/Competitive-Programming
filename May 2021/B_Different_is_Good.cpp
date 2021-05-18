@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-07 01:34:29
+//Date: 2021-05-15 19:52:59
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -60,69 +60,29 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
-int dx[] = {+1, -1, +0, -0};
-int dy[] = {+0, -0, +1, -1};
-int c, r, k;
-char arr[501][501];
-bool visited[501][501];
-
-bool valid(int x, int y)
-{
-    if (x >= 0 && x < c && y >= 0 && y < r && arr[x][y] == '.' && !visited[x][y])
-        return true;
-    else
-        return false;
-}
-void DFS(int i, int j)
-{
-    visited[i][j] = 1;
-    for (int k = 0; k < 4; k++)
-    {
-        int x = i + dx[k]; 
-        int y = j + dy[k];
-        // dbg_out(x,"S");
-        if (valid(x, y))
-            DFS(x, y);
-    }
-    if (k > 0)
-    {
-        arr[i][j] = 'X';
-        k--;
-    }
-}
-
 void solve()
 {
-    cin >> c >> r >> k;
+    //4 3 0 1 2 0
+    //16,8,1,2,4,1
+    // 16,24,25,27,31,32
 
-    bool ok = false;
-    int si = -1;
-    int sj = -1;
-
-    for (int i = 0; i < c; i++)
+    // 2 2 8 16 8 4
+    int N;
+    cin >> N;
+    if (N > 26)
     {
-        for (int j = 0; j < r; j++)
-        {
-            cin >> arr[i][j];
-            if (!ok && arr[i][j] == '.')
-            {
-                ok = true;
-                si = i;
-                sj = j;
-            }
-        }
+        cout << -1 << endl;
+        return;
     }
-    DFS(si, sj);
+    string input;
+    cin >> input;
 
-    for (int i = 0; i < c; i++)
-    {
-        for (int j = 0; j < r; j++)
-        {
-            cout<<arr[i][j];
-        }
-        cout<<endl;
-    }
-    cout<<endl;
+    set<char> s;
+
+    for (auto x : input)
+        s.insert(x);
+
+    cout << N - s.size() << endl;
 }
 
 int32_t main()

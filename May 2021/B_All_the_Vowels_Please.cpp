@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-07 01:34:29
+//Date: 2021-05-18 06:27:07
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -60,69 +60,50 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
-int dx[] = {+1, -1, +0, -0};
-int dy[] = {+0, -0, +1, -1};
-int c, r, k;
-char arr[501][501];
-bool visited[501][501];
+// vector<int> divisors;
 
-bool valid(int x, int y)
+int get_divisors(int x)
 {
-    if (x >= 0 && x < c && y >= 0 && y < r && arr[x][y] == '.' && !visited[x][y])
-        return true;
-    else
-        return false;
-}
-void DFS(int i, int j)
-{
-    visited[i][j] = 1;
-    for (int k = 0; k < 4; k++)
+
+    for (int i = 5; i * i <= x; i++)
     {
-        int x = i + dx[k]; 
-        int y = j + dy[k];
-        // dbg_out(x,"S");
-        if (valid(x, y))
-            DFS(x, y);
+
+        if (x % i == 0)
+            return i;
     }
-    if (k > 0)
-    {
-        arr[i][j] = 'X';
-        k--;
-    }
+    return -1;
 }
+
+string vowel = "aeiou";
+
 
 void solve()
 {
-    cin >> c >> r >> k;
+    string vowels = "aeiou";
 
-    bool ok = false;
-    int si = -1;
-    int sj = -1;
+    int N;
+    cin >> N;
+    int m = get_divisors(N);
+    int n = N / m;
 
-    for (int i = 0; i < c; i++)
+    if (m == -1)
+        cout << -1 << endl;
+
+    else
     {
-        for (int j = 0; j < r; j++)
+        int start_point = 0;
+
+        for (int i = 0; i < n; i++)
         {
-            cin >> arr[i][j];
-            if (!ok && arr[i][j] == '.')
+            for (int j = 0; j < m; j++)
             {
-                ok = true;
-                si = i;
-                sj = j;
+                cout<<vowel[(i+j) % 5];
+            
             }
+            // cout<<endl;
+            
         }
     }
-    DFS(si, sj);
-
-    for (int i = 0; i < c; i++)
-    {
-        for (int j = 0; j < r; j++)
-        {
-            cout<<arr[i][j];
-        }
-        cout<<endl;
-    }
-    cout<<endl;
 }
 
 int32_t main()

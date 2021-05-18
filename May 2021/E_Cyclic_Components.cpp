@@ -1,7 +1,38 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-07 01:34:29
+//Date: 2021-05-08 17:39:48
+class UnionFind{
+private:
+vector < int > p,rank;
+public:
+UnionFind(int N){
+    rank.assign(N,0);
+    p.resize(N);
+    for(int i=0;i<N;i++) p[i]=i;
+}
+int findSet(int s){
+    return (p[s]==s)? s : p[s] = findSet(p[s]); 
+}
+bool isSameSet(int a, int b) {
+    return findSet(a) == findSet(b);
+}
+bool unionSet(int a, int b){
+    if(!isSameSet(a,b)){
+        int x = findSet(a);
+        int y = findSet(b);
 
+        if(rank[x]>rank[y]){
+            p[y]= x;
+        }
+        else {
+            p[x] = y;
+            if(rank[x]==rank[y]) rank[y]++;
+        }
+        return true;
+    }
+    else return false;
+}
+};
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -60,69 +91,51 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
-int dx[] = {+1, -1, +0, -0};
-int dy[] = {+0, -0, +1, -1};
-int c, r, k;
-char arr[501][501];
-bool visited[501][501];
+vector<vector<int>> graph;
+vector<int> visited;
 
-bool valid(int x, int y)
-{
-    if (x >= 0 && x < c && y >= 0 && y < r && arr[x][y] == '.' && !visited[x][y])
-        return true;
-    else
-        return false;
-}
-void DFS(int i, int j)
-{
-    visited[i][j] = 1;
-    for (int k = 0; k < 4; k++)
-    {
-        int x = i + dx[k]; 
-        int y = j + dy[k];
-        // dbg_out(x,"S");
-        if (valid(x, y))
-            DFS(x, y);
-    }
-    if (k > 0)
-    {
-        arr[i][j] = 'X';
-        k--;
-    }
-}
+bool isCyclic;
 
+void DFS(int src)
+{
+    if (visited[src])
+        return;
+    //Check for 2 Edge
+    if (graph[src].size() != 2)
+        isCyclic = false;
+    visited[src] = 1;
+
+    for (auto x : graph[src])
+        DFS(x);
+}
 void solve()
 {
-    cin >> c >> r >> k;
+    int n, m;
+    cin >> n >> m;
+    graph.resize(n + 1);
+    visited.resize(n + 1);
 
-    bool ok = false;
-    int si = -1;
-    int sj = -1;
-
-    for (int i = 0; i < c; i++)
+    int from, to;
+    for (int i = 0; i < m; i++)
     {
-        for (int j = 0; j < r; j++)
+        cin >> from >> to;
+        graph[from].push_back(to);
+        graph[to].push_back(from);
+    }
+
+    int answer = 0;
+    //Process
+    for (int i = 1; i <= n; i++)
+    {
+        if (!visited[i])
         {
-            cin >> arr[i][j];
-            if (!ok && arr[i][j] == '.')
-            {
-                ok = true;
-                si = i;
-                sj = j;
-            }
+            isCyclic = true;
+            DFS(i);
+            if (isCyclic)
+                answer++;
         }
     }
-    DFS(si, sj);
-
-    for (int i = 0; i < c; i++)
-    {
-        for (int j = 0; j < r; j++)
-        {
-            cout<<arr[i][j];
-        }
-        cout<<endl;
-    }
-    cout<<endl;
+    cout << answer << endl;
 }
 
 int32_t main()
@@ -132,7 +145,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();

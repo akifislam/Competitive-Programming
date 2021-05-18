@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-07 01:34:29
+//Date: 2021-05-07 12:57:16
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -60,69 +60,75 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
-int dx[] = {+1, -1, +0, -0};
-int dy[] = {+0, -0, +1, -1};
-int c, r, k;
-char arr[501][501];
-bool visited[501][501];
+vector<vector<pair<int, int>>> graph;
+vector<int> processed;
+vector<int> dist;
 
-bool valid(int x, int y)
+int n, m;
+int tc = 1;
+void Dijkstra(int x)
 {
-    if (x >= 0 && x < c && y >= 0 && y < r && arr[x][y] == '.' && !visited[x][y])
-        return true;
-    else
-        return false;
-}
-void DFS(int i, int j)
-{
-    visited[i][j] = 1;
-    for (int k = 0; k < 4; k++)
+    for (int i = 1; i <= n; i++)
+        dist[i] = INT_MAX;
+
+    dist[x] = 0;
+
+    priority_queue<pair<int, int>> Q;
+    Q.push({0, x});
+
+    while (!Q.empty())
     {
-        int x = i + dx[k]; 
-        int y = j + dy[k];
-        // dbg_out(x,"S");
-        if (valid(x, y))
-            DFS(x, y);
-    }
-    if (k > 0)
-    {
-        arr[i][j] = 'X';
-        k--;
+        int a = Q.top().second; // Node
+        Q.pop();
+        if (processed[a])
+            continue;
+        processed[a] = true;
+
+        for (auto u : graph[a])
+        {
+            int b = u.first;  //Node
+            int w = u.second; //Weight;
+
+            if (dist[b] > dist[a] + w)
+            {
+                dist[b] = dist[a] + w;
+                Q.push({-dist[b], b});
+            }
+        }
     }
 }
 
 void solve()
 {
-    cin >> c >> r >> k;
+    cin >> n >> m;
 
-    bool ok = false;
-    int si = -1;
-    int sj = -1;
+    processed.clear();
+    dist.clear();
 
-    for (int i = 0; i < c; i++)
+    processed.resize(n + 1);
+    dist.resize(n + 1);
+
+    graph.resize(n + 1);
+    graph.clear();
+
+    int from, to, w;
+    for (int i = 0; i < m; i++)
     {
-        for (int j = 0; j < r; j++)
-        {
-            cin >> arr[i][j];
-            if (!ok && arr[i][j] == '.')
-            {
-                ok = true;
-                si = i;
-                sj = j;
-            }
-        }
+        cin >> from >> to >> w;
+        graph[from].push_back({to, w});
+        graph[to].push_back({from, w});
     }
-    DFS(si, sj);
 
-    for (int i = 0; i < c; i++)
+    // int start_node;
+    // cin >> start_node;
+    Dijkstra(1);
+    cout<<"Case "<<tc++<<": ";
+    if (dist[n] != INT_MAX)
     {
-        for (int j = 0; j < r; j++)
-        {
-            cout<<arr[i][j];
-        }
-        cout<<endl;
+        cout << dist[n] << endl;
     }
-    cout<<endl;
+    else
+        cout << "Impossible" << endl;
 }
 
 int32_t main()
@@ -131,8 +137,9 @@ int32_t main()
     cin.tie(0);
 #ifdef AKIF
 #endif
+
     int test = 1;
-    // cin >> test;
+    cin >> test;
     while (test--)
     {
         solve();

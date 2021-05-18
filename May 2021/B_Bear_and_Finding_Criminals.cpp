@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-07 01:34:29
+//Date: 2021-05-16 11:54:44
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -60,69 +60,58 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
-int dx[] = {+1, -1, +0, -0};
-int dy[] = {+0, -0, +1, -1};
-int c, r, k;
-char arr[501][501];
-bool visited[501][501];
-
-bool valid(int x, int y)
-{
-    if (x >= 0 && x < c && y >= 0 && y < r && arr[x][y] == '.' && !visited[x][y])
-        return true;
-    else
-        return false;
-}
-void DFS(int i, int j)
-{
-    visited[i][j] = 1;
-    for (int k = 0; k < 4; k++)
-    {
-        int x = i + dx[k]; 
-        int y = j + dy[k];
-        // dbg_out(x,"S");
-        if (valid(x, y))
-            DFS(x, y);
-    }
-    if (k > 0)
-    {
-        arr[i][j] = 'X';
-        k--;
-    }
-}
-
 void solve()
 {
-    cin >> c >> r >> k;
+    int N, L, input;
+    cin >> N >> L;
+    vector<int> vec(N + 1);
 
-    bool ok = false;
-    int si = -1;
-    int sj = -1;
-
-    for (int i = 0; i < c; i++)
+    for (int i = 1; i <= N; i++)
     {
-        for (int j = 0; j < r; j++)
+        cin >> vec[i];
+    }
+
+    int visited = 0;
+    int answer = 0;
+    if (vec[L] == 1)
+    {
+        answer++;
+    }
+    visited++;
+
+    int dist = 1;
+
+    while (visited <= N)
+    {
+        // printf("Visited : %d\n", visited);
+        if (L - dist >= 1 && L + dist <= N)
         {
-            cin >> arr[i][j];
-            if (!ok && arr[i][j] == '.')
+            visited++;
+            visited++;
+
+            if (vec[L - dist] == 1 && vec[L + dist] == 1)
+                answer++, answer++;
+        }
+
+        else
+        {
+            // printf("L : %d, R : %d, Ans : %d\n", L - dist, L + dist, answer);
+            visited++;
+
+            if (L - dist < 1)
             {
-                ok = true;
-                si = i;
-                sj = j;
+                if (vec[L + dist] == 1)
+                    answer++;
+            }
+            else if (L + dist > N)
+            {
+                if (vec[L - dist] == 1)
+                    answer++;
             }
         }
+        dist++;
     }
-    DFS(si, sj);
-
-    for (int i = 0; i < c; i++)
-    {
-        for (int j = 0; j < r; j++)
-        {
-            cout<<arr[i][j];
-        }
-        cout<<endl;
-    }
-    cout<<endl;
+    cout << answer << endl;
 }
 
 int32_t main()
