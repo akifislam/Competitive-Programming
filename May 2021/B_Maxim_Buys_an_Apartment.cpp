@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-21 20:01:21
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,18 +62,17 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    int N;
-    cin >> N;
-    ll input;
-    for (int i = 0; i < N; i++)
+    ll N, M;
+    cin >> N >> M;
+    if (N == M)
+        cout << "0 0";
+    else
     {
-        cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
+        cout << (M != 0) << ' ';
+        cout << min(N - M, M * 2);
     }
-    cout << endl;
+
+
 }
 
 int32_t main()
@@ -83,7 +82,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin >> test;
     while (test--)
     {
         solve();

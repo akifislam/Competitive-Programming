@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-18 20:11:04
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -60,20 +60,65 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
+bool visited[53];
+
+int search_greater(int size, int num)
+{
+    for (int i = 1; i <= size; i++)
+    {
+        if (!visited[i] && i > num)
+            return i;
+    }
+    return -1;
+}
+
 void solve()
 {
+
     int N;
     cin >> N;
-    ll input;
+    vector<int> ans;
+
+    int arr[N][N];
+    int maxi = -1;
+
     for (int i = 0; i < N; i++)
     {
-        cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
+        maxi = -1;
+        for (int j = 0; j < N; j++)
+        {
+            cin >> arr[i][j];
+            maxi = max(arr[i][j], maxi);
+        }
+        ans.pb(maxi);
+        visited[maxi] = true;
     }
-    cout << endl;
+
+    int revisited[N + 1];
+    memset(revisited, false, sizeof(revisited));
+
+    //Check
+    for (int i = 0; i < N; i++)
+    {
+        // cout << "Revisited" << endl;
+        // for (int i = 1; i <= N; i++)
+        // {
+        //     // cout << revisited[i] << " ";
+        // }
+        // // cout << endl;
+
+        if (!revisited[ans[i]])
+        {
+            revisited[ans[i]] = true;
+            cout << ans[i] << " ";
+        }
+        else
+        {
+            int x = search_greater(N, ans[i]);
+            revisited[x] = visited[x] = true;
+            cout << x << " ";
+        }
+    }
 }
 
 int32_t main()
@@ -83,7 +128,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin >> test;
     while (test--)
     {
         solve();

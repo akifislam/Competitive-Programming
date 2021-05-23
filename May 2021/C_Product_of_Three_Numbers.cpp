@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-19 18:10:28
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,18 +62,49 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    int N;
-    cin >> N;
-    ll input;
-    for (int i = 0; i < N; i++)
+    ll N;
+    cin >> N; //64
+
+    vector<int> ans;
+
+    // bool isPossible = false;
+
+    for (int i = 2; i * i <= N; i++)
     {
-        cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
+        if (N % i == 0)
+        {
+            N = N / i;        //32
+            ans.push_back(i); //2
+            break;
+        }
     }
-    cout << endl;
+
+    // Suppose Got Now 32
+    if (ans.size() > 0)
+    {
+        for (int i = 2; i * i <= N; i++)
+        {
+            if (i != ans[0] && N % i == 0 &&  N / i != ans[0] && N/i != i)
+            {
+                ans.push_back(i); //4
+                N = N / i;
+                ans.push_back(N);
+                break;
+            }
+        }
+    }
+
+    if (ans.size() == 3)
+    {
+        cout << "YES" << endl;
+        for (int i = 0; i < 3; i++)
+        {
+            cout << ans[i] << " ";
+        }
+        cout << endl;
+    }
+    else
+        cout << "NO" << endl;
 }
 
 int32_t main()
@@ -83,7 +114,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    cin>>test;
     while (test--)
     {
         solve();

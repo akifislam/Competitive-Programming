@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-19 11:53:52
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -64,16 +64,28 @@ void solve()
 {
     int N;
     cin >> N;
-    ll input;
+
+    vector<pair<ll, ll>> vec(N);
+
     for (int i = 0; i < N; i++)
     {
-        cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
+        cin >> vec[i].first >> vec[i].second;
     }
-    cout << endl;
+    sort(All(vec));
+
+    //Process
+
+    int last_exam = vec[0].second;
+
+    //Process
+    for (int i = 1; i < N; i++)
+    {
+        if (vec[i].second < last_exam)
+            last_exam = vec[i].first;
+        else
+            last_exam = vec[i].second;
+    }
+    cout << last_exam << endl;
 }
 
 int32_t main()
@@ -83,7 +95,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin >> test;
     while (test--)
     {
         solve();

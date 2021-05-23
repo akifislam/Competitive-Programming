@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-20 07:38:28
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,18 +62,25 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    int N;
-    cin >> N;
-    ll input;
-    for (int i = 0; i < N; i++)
+    ll n, m, k, input;
+    cin >> n >> m >> k;
+
+    vector<ll> vec;
+
+    int answer = 0;
+
+    for (int i = 0; i < m + 1; i++)
     {
         cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
+        vec.pb(input);
     }
-    cout << endl;
+
+    for (int i = 0; i < m; i++)
+    {
+        if (__builtin_popcount(vec.back() ^ vec[i]) <= k)
+            answer++;
+    }
+    cout << answer << endl;
 }
 
 int32_t main()
@@ -83,7 +90,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin >> test;
     while (test--)
     {
         solve();

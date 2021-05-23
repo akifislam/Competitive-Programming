@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-20 22:06:05
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,18 +62,32 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    int N;
+    ll N;
     cin >> N;
     ll input;
+
+    vector<ll> occur(N+1, 0);
+    
     for (int i = 0; i < N; i++)
     {
         cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
+        occur[input]++;
     }
-    cout << endl;
+    sort(All(occur));
+
+    ll answer = 0;
+
+    for (int i = N; i >= 0; i--)
+    {
+        if (occur[i] < 2)
+            break;
+        else
+        {
+            answer += (occur[i] * (occur[i] - 1));
+        }
+    }
+    // cout<<occur<<endl;
+    cout << answer << endl;
 }
 
 int32_t main()

@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-22 05:52:26
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,18 +62,29 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    int N;
-    cin >> N;
-    ll input;
-    for (int i = 0; i < N; i++)
+    string Apple;
+    string Google;
+
+    cin >> Google >> Apple;
+
+    int count = 0;
+    int answer = 0;
+
+    for (int i = 0; i < Google.size(); i++)
     {
-        cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
+        count = 0;
+        for (int j = 0; j < Apple.size(); j++)
+        {
+            if (Google[i + j] == Apple[j])
+                count++;
+        }
+        if(count == Apple.size()){
+            answer++;
+            Google[i+Apple.size()-1] = '#';
+        }
+
     }
-    cout << endl;
+    cout<<answer<<endl;
 }
 
 int32_t main()
@@ -83,7 +94,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin >> test;
     while (test--)
     {
         solve();

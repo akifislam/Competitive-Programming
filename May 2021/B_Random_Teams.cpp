@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-19 10:44:34
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,18 +62,23 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    int N;
-    cin >> N;
-    ll input;
-    for (int i = 0; i < N; i++)
-    {
-        cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
-    }
-    cout << endl;
+
+    ll persons, teams;
+    cin >> persons >> teams;
+
+    ll maxi = ((persons - teams + 1) * (persons - teams)) / 2;
+    //8 3
+    //3 3 2
+    ll mini;
+
+    ll big_subteam = (persons + teams - 1) / teams; //3 //Giving Ceil Value
+    ll small_subteam = persons / teams;             //2 //Floor Value
+
+    mini = (((big_subteam * (big_subteam - 1)) / 2) * (persons % teams));
+    // cout << "Big Team Friendship" << mini << endl;
+    mini += (((small_subteam * (small_subteam - 1))/2) * (teams - (persons % teams)));
+
+    cout << mini <<" "<<maxi<< endl;
 }
 
 int32_t main()
@@ -83,7 +88,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();

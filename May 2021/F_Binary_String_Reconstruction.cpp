@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-22 17:35:07
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,18 +62,52 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    int N;
-    cin >> N;
-    ll input;
-    for (int i = 0; i < N; i++)
+    int n0, n1, n2;
+    cin >> n0 >> n1 >> n2;
+
+    string ans;
+
+    //Filling with Substring 00
+    if (n0 > 0)
+        ans.push_back('0');
+    for (int i = 0; i < n0; i++)
     {
-        cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
+        ans.push_back('0');
     }
-    cout << endl;
+
+    // 00 Done
+
+    if (n0 == 0 && n1 > 0)
+    {
+        ans.push_back('0');
+    }
+    int hold = 0;
+
+    if (n1 % 2 == 0 && n1 != 0)
+        n1--, hold++;
+
+    for (int i = 0; i < n1; i++)
+    {
+        if (i % 2 == 0)
+            ans.push_back('1');
+        else
+            ans.pb('0');
+    }
+
+    if (((n1 == 0) || (ans.size() > 0 && ans[ans.size() - 1] == '0')) && (n2 > 0))
+    {
+        ans.pb('1');
+    }
+
+    //Filling with 11
+    for (int i = 0; i < n2; i++)
+    {
+        ans.pb('1');
+    }
+    if (hold > 0)
+        ans.pb('0');
+
+    cout << ans << endl;
 }
 
 int32_t main()

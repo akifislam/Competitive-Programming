@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-21 16:55:40
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,18 +62,40 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    int N;
-    cin >> N;
-    ll input;
+    int N, K, input;
+    cin >> N >> K;
+
+    vector<int> firstWeek;
     for (int i = 0; i < N; i++)
     {
         cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
-        else
-            cout << -abs(input) << " ";
+        firstWeek.pb(input);
     }
-    cout << endl;
+
+    vector<pair<int, pair<int, int>>> vec;
+
+    //Second Week Input
+    for (int i = 0; i < N; i++)
+    {
+        cin >> input;
+        vec.push_back(make_pair(firstWeek[i] - input, make_pair(firstWeek[i], input)));
+    }
+    //Negative mane First week e dam kom, second e beshi.
+    sort(All(vec));
+
+    int answer = 0;
+
+    int p = 0;
+    for (int i = 0; i < K ; i++)
+    {
+        answer += (vec[i].second.first);
+    }
+
+    for (int i = K; i < N; i++)
+    {
+        answer += min(vec[i].second.second,vec[i].second.first);
+    }
+    cout << answer << endl;
 }
 
 int32_t main()
@@ -83,7 +105,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin >> test;
     while (test--)
     {
         solve();

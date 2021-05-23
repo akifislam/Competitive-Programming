@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-05-18 19:55:20
+//Date: 2021-05-20 06:30:11
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,18 +62,77 @@ ll hashPrime = 1610612741;
 
 void solve()
 {
-    int N;
+    int N, input,index;
     cin >> N;
-    ll input;
-    for (int i = 0; i < N; i++)
+
+    int odd = 0, even = 0;
+
+    vector<pair<int,int>> allOdds;
+    vector<pair<int,int>> allEvens;
+
+    for (int i = 0; i < 2 * N; i++)
     {
         cin >> input;
-        if (i % 2 == 1)
-            cout << abs(input) << " ";
+        if (input % 2 == 0)
+        {
+            allEvens.pb({input,i+1});
+            even++;
+        }
         else
-            cout << -abs(input) << " ";
+        {
+            odd++;
+            allOdds.push_back({input,i+1});
+        }
     }
-    cout << endl;
+
+    //Removing 2 Elements
+    int removed = 0;
+
+    if (odd % 2 == 1)
+    {
+        allOdds.pop_back();
+        odd--;
+        removed++;
+    }
+    if (even % 2 == 1)
+    {
+        allEvens.pop_back();
+        even--;
+        removed++;
+    }
+
+    // That means all of count are even
+    if (removed < 2)
+    {
+        if (allOdds.size() >= 2)
+        {
+            allOdds.pop_back();
+            allOdds.pop_back();
+        }
+        else
+        {
+            allEvens.pop_back();
+            allEvens.pop_back();
+        }
+    }
+    // cout << allOdds << endl;
+    // cout << allEvens << endl;
+
+    if (allOdds.size() > 1)
+    {
+        for (int i = 0; i < allOdds.size() - 1; i += 2)
+        {
+            cout << allOdds[i].second << " " << allOdds[i + 1].second << endl;
+        }
+    }
+
+    if (allEvens.size() > 1)
+    {
+        for (int i = 0; i < allEvens.size() - 1; i += 2)
+        {
+            cout << allEvens[i].second << " " << allEvens[i + 1].second << endl;
+        }
+    }
 }
 
 int32_t main()
