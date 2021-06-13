@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-06-13 10:56:24
+//Date: 2021-06-13 11:34:25
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -65,43 +65,12 @@ int dy[] = {+0, -0, +1, -1};
 
 void solve()
 {
-
-    //5 ; L =5 R = 8
-
-    //5 1 2 4 3
-    // 1 2 3 4 5
-    // Each one can maximum make (n-1) pair
-
-    ll n, l, r;
-    cin >> n >> l >> r;
-
-    vector<ll> vec(n);
-
-    for (int i = 0; i < n; i++)
-    {
-        cin >> vec[i];
-    }
-    sort(All(vec));
-
-    //Process
-    ll answer = 0;
-    for (int i = 0; i < n; i++)
-    {
-        // cout << "For " << i + 1 << " :" << endl;
-
-        ll boundary_left = l - vec[i];
-        ll boundary_right = r - vec[i];
-
-        // cout << "Left Boundary : " << boundary_left << endl;
-        // cout << "Right Boundary : " << boundary_right << endl;
-
-        // Now Seach No. of elements between left boundary to right boundary in greater index of i
-        ll count_in_range = (upper_bound(vec.begin() + i + 1, vec.end(), boundary_right) - vec.begin() + i + 1) - (lower_bound(vec.begin() + i + 1, vec.end(), boundary_left) - vec.begin() + i + 1);
-        // cout << "Found no of elements : " << count_in_range << endl;
-        answer += count_in_range;
-        // cout << endl;
-    }
-    cout << answer << endl;
+    // How Many Numbers are between 3 to 7?
+    vector<int> vec = {1, 2, 4, 5, 6, 8, 9, 10};
+    cout << (upper_bound(vec.begin(), vec.end(), 7) - vec.begin()) << endl;
+    cout << (lower_bound(vec.begin(), vec.end(), 3) - vec.begin()) << endl;
+    cout << (upper_bound(vec.begin(), vec.end(), 8) - vec.begin()) - (lower_bound(vec.begin(), vec.end(), 5) - vec.begin()) << endl;
+    //Carefully ! iterator - iterator
 }
 
 int32_t main()
@@ -111,7 +80,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();
