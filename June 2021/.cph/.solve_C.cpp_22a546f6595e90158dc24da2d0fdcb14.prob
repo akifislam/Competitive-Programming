@@ -1,0 +1,1 @@
+{"name":"Local: solve_C","url":"/Users/akifislam/Desktop/Soft and Work/Google/June 2021/solve_C.cpp","tests":[{"id":1624035905069,"input":"2\n4\n4 2 1 2\n2\n1 3","output":"1\n4\n4 2 1 2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/akifislam/Desktop/Soft and Work/Google/June 2021/solve_C.cpp","group":"local","local":true}

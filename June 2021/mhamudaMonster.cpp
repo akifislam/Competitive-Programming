@@ -34,18 +34,14 @@ using namespace __gnu_pbds;
 
 ll dx[] = {-1, +1, 0, 0};
 ll dy[] = {0, 0, +1, -1};
-char dz[] = {'L', 'R', 'D', 'U'};
+char dz[] = {'U', 'D', 'R', 'L'};
 ll n, m;
 
 vector<pair<ll, ll>> path;
 map<pair<ll, ll>, pair<ll, ll>> mp;
-
 char graph[MAX][MAX], x[MAX][MAX];
-
 bool validPath[MAX][MAX];
-
 ll distance_A_to_boundary[MAX][MAX], distance_boundary_to_AM[MAX][MAX];
-
 vector<pair<ll, pair<ll, ll>>> boundary;
 
 bool valid_J(ll u, ll v)
@@ -148,7 +144,8 @@ bool BFS_Monster_Check(ll dest_r, ll dest_c)
             }
         }
     }
-
+    cout<<"Dist A : "<<dist_a<<endl;
+    cout<<"Dist M : "<<dist_m<<endl;
     if (dist_a < dist_m)
         return true;
     else
@@ -158,7 +155,8 @@ bool BFS_Monster_Check(ll dest_r, ll dest_c)
 void PATH_FROM_A_TO_BOUNDARY(ll src_r, ll src_c, ll dest_r, ll dest_c)
 {
     queue<pair<ll, ll>> Q;
-    Q.push({src_r, src_c});
+    validPath[src_r][src_c] = true;
+    Q.push(make_pair(src_r, src_c));
 
     while (!Q.empty())
     {
@@ -174,6 +172,7 @@ void PATH_FROM_A_TO_BOUNDARY(ll src_r, ll src_c, ll dest_r, ll dest_c)
             if (valid_path(u, v))
             {
                 validPath[u][v] = true;
+                Q.push(make_pair(u, v));
                 mp[{u, v}] = {cur_r, cur_c};
 
                 if (u == dest_r && v == dest_c)
@@ -186,7 +185,7 @@ void PATH_FROM_A_TO_BOUNDARY(ll src_r, ll src_c, ll dest_r, ll dest_c)
 string PATH(ll src_r, ll src_c, ll dest_r, ll dest_c)
 {
     string pathdirection = "";
-    path.pb({dest_r, dest_c});
+    path.pb({dest_r, dest_c}); // R
 
     ll prev_now_r = dest_r;
     ll prev_now_c = dest_c;
@@ -200,13 +199,17 @@ string PATH(ll src_r, ll src_c, ll dest_r, ll dest_c)
         ll now_r = mp[{prev_now_r, prev_now_c}].first;
         ll now_c = mp[{prev_now_r, prev_now_c}].second;
 
-        //cout<<"AFTER PATH PRINT: "<<now_r <<" "<<now_c<<"\n";
+        // cout << "AFTER PATH PRINT: " << now_r << " " << now_c << "\n";
 
         prev_now_r = now_r;
         prev_now_c = now_c;
 
         if (prev_now_r == src_r && prev_now_c == src_c)
+        {
+            path.pb({src_r, src_c});
+
             break;
+        }
 
         path.pb({now_r, now_c});
     }
@@ -234,8 +237,7 @@ int main()
 
     ll i, j, src_c, src_r, dest_r, dest_c;
 
-    cin >> n >> m; //OK
-
+    cin >> n >> m;
     for (i = 0; i < n; i++)
     {
         for (j = 0; j < m; j++)
@@ -250,19 +252,19 @@ int main()
             }
         }
         //cout<<"\n";
-    } //OK
+    }
 
-    memset(distance_A_to_boundary, -1, sizeof(distance_A_to_boundary)); //OK
+    memset(distance_A_to_boundary, -1, sizeof(distance_A_to_boundary));
 
     if (BFS_Bounday_Check(src_r, src_c))
     {
         sort(all(boundary));
         bool ok = false;
 
-        cout << boundary.size() << "\n";
+        // cout << boundary.size() << "\n";
 
-        for (i = 0; i < boundary.size(); i++)
-            cout << "dist = " << boundary[i].first << " row = " << boundary[i].second.first << " col = " << boundary[i].second.second << "\n";
+        // for (i = 0; i < boundary.size(); i++)
+        //     cout << "dist = " << boundary[i].first << " row = " << boundary[i].second.first << " col = " << boundary[i].second.second << "\n";
         for (i = 0; i < boundary.size(); i++)
         {
             memset(distance_boundary_to_AM, -1, sizeof(distance_boundary_to_AM));
@@ -279,10 +281,32 @@ int main()
             }
         }
 
+        //Print Path
+        // for (int i = 0; i < n; i++)
+        // {
+        //     for (int j = 0; j < m; j++)
+        //     {
+                // cout << distance_boundary_to_AM[i][j] << " ";
+        //     }
+        //     cout << endl;
+        // }
+
         if (ok)
         {
-            PATH_FROM_A_TO_BOUNDARY(src_r, src_c, dest_r, dest_c);
             memset(validPath, false, sizeof(validPath));
+            // cout << src_r << " " << src_c << " " << dest_r << " " << dest_c << endl;
+            PATH_FROM_A_TO_BOUNDARY(src_r, src_c, dest_r, dest_c); //Working
+
+            //Print Path
+            // for (int i = 0; i < n; i++)
+            // {
+            //     for (int j = 0; j < m; j++)
+            //     {
+            //         cout << validPath[i][j] << " ";
+            //     }
+            //     cout << endl;
+            // }
+
             string pathdirection = PATH(src_r, src_c, dest_r, dest_c);
             yes;
             cout << pathdirection.size() << "\n";
@@ -291,69 +315,15 @@ int main()
         else
         {
             no;
-            cout << "Inner";
+            // cout << "Inner";
         }
     }
+
     else
     {
         no;
-        cout << "Outer";
+        // cout << "Outer";
     }
-
-    /*for (i = 0; i <= n+1; i++)
-        {
-            for (j = 0; j <= m+1; j++)
-                cout<<graph[i][j];
-
-            cout<<"\n";
-        }
-
-
-    cout << "Map Print" << endl;
-    for (auto x : mp)
-    {
-        cout << "(" << x.first.first << "," << x.first.second << ")"
-             << "--> "
-             << "(" << x.second.first << "," << x.second.second << ")" << endl;
-    }
-    
-    ll ans=PATH(src_r,src_c,dest_r,dest_c);
-
-    cout<<"Source : "<<src_r<<" " <<src_c<<" Destination : "<<dest_r <<" "<<dest_c<<"\n";
-    cout << "Path Print" << endl;
-    for (auto x : path)
-    {
-        cout << "(" << x.first << "," << x.second << ")"
-             << "--> ";
-             //<< "(" << x.first << "," << x.second << ")" << endl;
-    }*/
-
-    /*if (BFS(src_r, src_c))
-    {
-        yes;
-        cout << "\n";
-        
-        PATH(src_r, src_c, dest_r, dest_c);
-        
-        cout << path.size() << "\n";
-
-        for (i = 0; i < path.size(); i++)
-            cout << x[path[i].first][path[i].second];
-
-        //for(auto it=mp.begin();it!=mp.end();it++)
-        //cout<<it->second.first<<gap<<it->second.second<<"\n";
-        /* Map Print by Akif
-        cout << "Map Print" << endl;
-        for (auto x : mp)
-        {
-            cout << "(" << x.first.first << "," << x.first.second << ")"
-                 << "--> "
-                 << "(" << x.second.first << "," << x.second.second << ")" << endl;
-        }
-        */
-    /*}
-    else
-        no;*/
 
     cout << "\n";
     return 0; //:D
