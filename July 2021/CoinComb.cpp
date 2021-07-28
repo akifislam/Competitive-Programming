@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-15 07:57:57
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -65,22 +65,39 @@ int dy[] = {+0, -0, +1, -1};
 
 void solve()
 {
-    ll N;
-    cin >> N;
 
-    ll dp[N + 1];
+    ll no_of_coins;
+    cin >> no_of_coins;
+
+    ll targetSum;
+    cin >> targetSum;
+
+    ll input;
+    vector<ll> coins(no_of_coins);
+
+    for (int i = 0; i < no_of_coins; i++)
+    {
+        cin >> coins[i];
+    }
+
+    ll dp[targetSum + 1];
     memset(dp, 0, sizeof(dp));
 
+    ll MOD = 1e9 + 7;
     dp[0] = 1;
 
-    for (int i = 1; i <= N; i++)
+    for (int i = 1; i <= targetSum; i++)
     {
-        for (int j = N; j >= i; j--)
+        for (auto c : coins)
         {
-            dp[j] += dp[j - i];
+            if (i >= c)
+            {
+                dp[i] += dp[i - c] % MOD;
+            }
         }
+        dp[i] = dp[i] % MOD;
     }
-    cout << dp[N] - 1 << endl;
+    cout << dp[targetSum] << endl;
 }
 
 int32_t main()
@@ -90,7 +107,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();

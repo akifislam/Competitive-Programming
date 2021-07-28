@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-15 07:57:57
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -63,24 +63,45 @@ ll hashPrime = 1610612741;
 int dx[] = {+1, -1, +0, -0};
 int dy[] = {+0, -0, +1, -1};
 
+ll dp[1000005];
+ll MOD = 1e9 + 7;
+vector<ll> coins;
+
+ll solve(ll N)
+{
+    if (N == 0)
+        return 1;
+    if (N <= 0)
+        return 0;
+    if (dp[N] != -1)
+        return dp[N];
+
+    ll best = 0;
+    for (auto c : coins)
+    {
+        best += (solve(N - c) % MOD);
+        best = best % MOD;
+    }
+    dp[N] = best;
+    return best;
+}
 void solve()
 {
-    ll N;
-    cin >> N;
+    memset(dp, -1, sizeof(dp));
+    ll no_of_coins;
+    cin >> no_of_coins;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
+    ll targetSum;
+    cin >> targetSum;
 
-    dp[0] = 1;
+    ll input;
 
-    for (int i = 1; i <= N; i++)
+    for (int i = 0; i < no_of_coins; i++)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
+        cin >> input;
+        coins.pb(input);
     }
-    cout << dp[N] - 1 << endl;
+    cout << solve(targetSum) << endl;
 }
 
 int32_t main()
@@ -90,7 +111,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();

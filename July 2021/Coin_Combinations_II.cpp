@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-15 09:59:37
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -60,27 +60,46 @@ typedef tree<
 mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
 ll hashPrime = 1610612741;
 
-int dx[] = {+1, -1, +0, -0};
-int dy[] = {+0, -0, +1, -1};
-
 void solve()
 {
-    ll N;
-    cin >> N;
+    ll no_of_coins;
+    cin >> no_of_coins;
 
-    ll dp[N + 1];
+    ll targetSum;
+    cin >> targetSum;
+
+    vector<ll> coins(no_of_coins);
+
+    for (int i = 0; i < no_of_coins; i++)
+    {
+        cin >> coins[i];
+    }
+
+    ll dp[targetSum + 1];
+    ll MOD = 1e9 + 7;
     memset(dp, 0, sizeof(dp));
 
     dp[0] = 1;
 
-    for (int i = 1; i <= N; i++)
+    for (int i = 0; i < no_of_coins; i++)
     {
-        for (int j = N; j >= i; j--)
+        for (int j = 1; j <= targetSum; j++)
         {
-            dp[j] += dp[j - i];
+            if (j >= coins[i])
+            {
+                dp[j] += dp[j - coins[i]] % MOD;
+                dp[j] %= MOD;
+            }
         }
     }
-    cout << dp[N] - 1 << endl;
+
+    // for (int j = 0; j <= targetSum; j++)
+    // {
+    //     cout << dp[j] << " ";
+    // }
+    // cout << endl;
+
+    cout << dp[targetSum] << endl;
 }
 
 int32_t main()
@@ -90,7 +109,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();

@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-25 12:37:56
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -45,55 +45,34 @@ void dbg_out(Head H, Tail... T)
 #define mp make_pair
 #define All(x) (x).begin(), (x).end()
 #define sz(z) (int)((z).size())
-typedef pair<int, int> ii;
-typedef vector<ii> vii;
-typedef vector<ll> vl;
-typedef vector<int> vi;
-typedef vector<vi> vvi;
-typedef tree<
-    int,
-    null_type,
-    less<int>,
-    rb_tree_tag,
-    tree_order_statistics_node_update>
-    ordered_set;
-mt19937 rng((uint_fast32_t)chrono::steady_clock::now().time_since_epoch().count());
-ll hashPrime = 1610612741;
 
-int dx[] = {+1, -1, +0, -0};
-int dy[] = {+0, -0, +1, -1};
-
-void solve()
+int main()
 {
-    ll N;
-    cin >> N;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
+    string str;
+    stack<char> stk;
 
-    dp[0] = 1;
+    cin >> str;
 
-    for (int i = 1; i <= N; i++)
+
+    int SIZE = str.length();
+
+    for (int i = 0; i < SIZE; i++)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
-    }
-    cout << dp[N] - 1 << endl;
-}
+        if (!stk.empty() && stk.top() == str[i])
+            stk.pop();
 
-int32_t main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
-#ifdef AKIF
-#endif
-    int test = 1;
-    // cin >> test;
-    while (test--)
-    {
-        solve();
+        else
+            stk.push(str[i]);
     }
-    return 0;
+
+    string ans = "";
+    while (!stk.empty())
+    {
+        ans.pb(stk.top());
+        stk.pop();
+    }
+
+    reverse(ans.begin(),ans.end());
+    cout << ans << endl;
 }

@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-22 13:11:04
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -65,22 +65,49 @@ int dy[] = {+0, -0, +1, -1};
 
 void solve()
 {
-    ll N;
-    cin >> N;
+    ll N, K;
+    ll input;
+    cin >> N >> K;
+    vector<ll> vec;
+    set<ll> s;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
+    for (ll i = 0; i < N; i++)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
+        cin >> input;
+        vec.pb(input);
+        s.insert(input);
     }
-    cout << dp[N] - 1 << endl;
+
+    //Saving Set into a Vector
+    vector<ll> set_vector;
+
+    for (auto x : s)
+    {
+        set_vector.pb(x);
+    }
+
+    //Done
+
+    ll dist_no = s.size();
+    ll LIMIT = (N + dist_no - 1) / dist_no;
+
+    if (dist_no > K)
+    {
+        cout << -1 << endl;
+    }
+
+    else
+    {
+        cout << K * N << endl;
+         for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < K; j++)
+            {
+                cout << set_vector[j % dist_no] << " ";
+            }
+        }
+        cout << endl;
+    }
 }
 
 int32_t main()
@@ -90,7 +117,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    cin >> test;
     while (test--)
     {
         solve();

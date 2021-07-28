@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-22 10:43:50
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -68,19 +68,24 @@ void solve()
     ll N;
     cin >> N;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
+    vector<ll> vec(N);
+    for (int i = 0; i < N; i++)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
+        cin >> vec[i];
     }
-    cout << dp[N] - 1 << endl;
+
+    priority_queue<int> PQ;
+    PQ.push(-1 * (1e6 + 7));
+
+    ll bad = 0;
+    for (int i = N - 1; i >= 0; i--)
+    {
+        int topItem = PQ.top();
+        if (vec[i] > abs(topItem))
+            bad++;
+        PQ.push(vec[i] * (-1));
+    }
+    cout << bad << endl;
 }
 
 int32_t main()
@@ -90,7 +95,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    cin >> test;
     while (test--)
     {
         solve();

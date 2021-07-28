@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-24 11:39:41
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -65,22 +65,31 @@ int dy[] = {+0, -0, +1, -1};
 
 void solve()
 {
-    ll N;
+    ll N, input;
     cin >> N;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
+    map<ll, ll> mp;
 
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
+    for (ll i = 0; i < N; i++)
     {
-        for (int j = N; j >= i; j--)
+        cin >> input;
+        mp[input]++;
+    }
+
+    ll answer = 0;
+
+    for (auto x : mp)
+    {
+        if (x.first < x.second)
         {
-            dp[j] += dp[j - i];
+            answer += (x.second - x.first);
+        }
+        else if (x.first > x.second)
+        {
+            answer += x.second;
         }
     }
-    cout << dp[N] - 1 << endl;
+    cout << answer << endl;
 }
 
 int32_t main()
@@ -90,7 +99,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();

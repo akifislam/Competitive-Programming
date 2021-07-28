@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-18 12:54:15
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -63,24 +63,17 @@ ll hashPrime = 1610612741;
 int dx[] = {+1, -1, +0, -0};
 int dy[] = {+0, -0, +1, -1};
 
+ll arr[20][3];
+
+ll solve(int i)
+{
+    int best;
+    best = min(solve())
+}
 void solve()
 {
     ll N;
     cin >> N;
-
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
-    {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
-    }
-    cout << dp[N] - 1 << endl;
 }
 
 int32_t main()
@@ -90,7 +83,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    cin >> test;
     while (test--)
     {
         solve();

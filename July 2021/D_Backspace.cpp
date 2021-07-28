@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-22 21:56:45
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -65,22 +65,57 @@ int dy[] = {+0, -0, +1, -1};
 
 void solve()
 {
-    ll N;
-    cin >> N;
+    string S;
+    string T;
+    cin >> S >> T;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
+    int s_size = S.size();
+    int t_size = T.size();
+    if (s_size < t_size)
     {
-        for (int j = N; j >= i; j--)
+        cout << "NO" << endl;
+        return;
+    }
+    vector<int> pos;
+
+    for (int i = 0; i < s_size; i++)
+    {
+        if (S[i] == T[0])
+            pos.pb(i);
+    }
+
+    int i, j;
+    int POS_SIZE = pos.size();
+    int p = 0;
+    string new_string;
+    int lastpush = 0;
+
+    for (i = 0; i < POS_SIZE; i++)
+    {
+        new_string = "";
+        p = 0;
+
+        for (j = pos[i]; j < s_size; j++)
         {
-            dp[j] += dp[j - i];
+
+            if (S[j] == T[p] && p < t_size && ((j - lastpush <= 1) || (j - lastpush) % 2 == 1))
+            {
+                new_string.pb(S[j]);
+                lastpush = j;
+                p++;
+            }
+        }
+        // cout << new_string << endl;
+
+        // cout << (s_size - (lastpush+ 1)) << endl;
+
+        if (new_string == T && (s_size - (lastpush + 1)) % 2 == 0)
+        {
+            cout << "YES" << endl;
+            return;
         }
     }
-    cout << dp[N] - 1 << endl;
+    cout << "NO" << endl;
 }
 
 int32_t main()
@@ -90,7 +125,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    cin >> test;
     while (test--)
     {
         solve();

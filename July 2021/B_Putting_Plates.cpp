@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-18 10:03:45
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -65,22 +65,55 @@ int dy[] = {+0, -0, +1, -1};
 
 void solve()
 {
-    ll N;
-    cin >> N;
+    ll h, w;
+    cin >> h >> w;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
+    int arr[h][w];
+    memset(arr, 0, sizeof(arr));
 
-    dp[0] = 1;
+    arr[0][0] = 1;
+    arr[0][w - 1] = 1;
 
-    for (int i = 1; i <= N; i++)
+    // 1st ROW
+    for (int i = 1; i < w - 1; i++)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
+        if (arr[0][i - 1] != 1 && arr[0][i + 1] != 1)
+            arr[0][i] = 1;
     }
-    cout << dp[N] - 1 << endl;
+
+    // Last ROW
+    arr[h - 1][0] = arr[h - 1][w - 1] = 1;
+    
+    for (int i = 1; i < w - 1; i++)
+    {
+        if (arr[h - 1][i - 1] != 1 && arr[h - 1][i + 1] != 1)
+            arr[h - 1][i] = 1;
+    }
+
+    //Left Column
+    for (int i = 1; i < h - 1; i++)
+    {
+        if (arr[i - 1][0] != 1 && arr[i + 1][0] != 1)
+            arr[i][0] = 1;
+    }
+
+    //Right Column
+    for (int i = 1; i < h - 1; i++)
+    {
+        if (arr[i - 1][w - 1] != 1 && arr[i + 1][w - 1] != 1)
+            arr[i][w - 1] = 1;
+    }
+
+    //Print
+    for (int i = 0; i < h; i++)
+    {
+        for (int j = 0; j < w; j++)
+        {
+            cout << arr[i][j];
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
 
 int32_t main()
@@ -90,7 +123,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    cin >> test;
     while (test--)
     {
         solve();

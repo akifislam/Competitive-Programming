@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-15 20:04:35
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -63,24 +63,42 @@ ll hashPrime = 1610612741;
 int dx[] = {+1, -1, +0, -0};
 int dy[] = {+0, -0, +1, -1};
 
+char grid[1001][1001];
+ll dp[1001][1001];
+const ll MOD = 1e9 + 7;
+
+ll gridTraveller(ll i, ll j)
+{
+    if (i <= 0 || j <= 0)
+        return 0;
+    if (dp[i][j] != -1)
+        return dp[i][j];
+    if (grid[i][j] == '*')
+        return 0;
+    if (i == 1 && j == 1)
+        return 1;
+
+    dp[i][j] = (gridTraveller(i - 1, j) + gridTraveller(i, j - 1)) % MOD;
+    dp[i][j] %= MOD;
+    return dp[i][j];
+}
+
 void solve()
 {
+    memset(dp, -1, sizeof(dp));
     ll N;
     cin >> N;
-
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
+    ll x, y;
 
     for (int i = 1; i <= N; i++)
     {
-        for (int j = N; j >= i; j--)
+        for (int j = 1; j <= N; j++)
         {
-            dp[j] += dp[j - i];
+            cin >> grid[i][j];
         }
     }
-    cout << dp[N] - 1 << endl;
+
+    cout << gridTraveller(N, N) << endl;
 }
 
 int32_t main()
@@ -90,7 +108,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();

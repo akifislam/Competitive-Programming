@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-24 20:30:56
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,38 +62,62 @@ ll hashPrime = 1610612741;
 
 int dx[] = {+1, -1, +0, -0};
 int dy[] = {+0, -0, +1, -1};
-
+vector<ll> power_of_2;
 void solve()
 {
-    ll N;
-    cin >> N;
+    ll x = 1;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
+    for (ll i = 0; x <= 1e9 + 100; i++)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
+        power_of_2.pb(x);
+        x *= 2;
     }
-    cout << dp[N] - 1 << endl;
+    // cout << power_of_2 << endl;
+    ll N, K;
+    cin >> N >> K;
+    ll SAVE_N = N;
+    vector<ll> ans;
+    ll count = 0;
+    while (K--)
+    {
+        ll search = N - K;
+        ll y = lower_bound(All(power_of_2), search) - power_of_2.begin();
+        if (search != power_of_2[y])
+            y--;
+        ans.pb(power_of_2[y]);
+        count += power_of_2[y];
+        N -= power_of_2[y];
+    }
+    if (count == SAVE_N)
+    {
+        cout << "YES" << endl;
+        sort(All(ans));
+        for (auto xx : ans)
+        {
+            cout << xx << " ";
+        }
+        cout << endl;
+    }
+    else
+        cout << "NO" << endl;
 }
 
 int32_t main()
 {
+    clock_t tStart = clock();
+
     ios_base::sync_with_stdio(false);
     cin.tie(0);
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();
     }
+    // fprintf(stderr, "\n>> Runtime: %.10fs\n", (double) (clock() - tStart) / CLOCKS_PER_SEC);
+    cout<<(stderr, "\n>> Runtime: %.10fs\n", (double) (clock() - tStart) / CLOCKS_PER_SEC);
+
     return 0;
 }

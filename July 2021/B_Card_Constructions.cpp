@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-16 16:29:30
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -62,25 +62,22 @@ ll hashPrime = 1610612741;
 
 int dx[] = {+1, -1, +0, -0};
 int dy[] = {+0, -0, +1, -1};
+vector<ll> height;
 
 void solve()
 {
     ll N;
     cin >> N;
-
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
+    ll ans = 0;
+    while (N >= 2)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
+        ll index = lower_bound(All(height), N) - height.begin();
+        if (height[index] != N)
+            index--;
+        ans++;
+        N -= height[index];
     }
-    cout << dp[N] - 1 << endl;
+    cout << ans << endl;
 }
 
 int32_t main()
@@ -89,8 +86,18 @@ int32_t main()
     cin.tie(0);
 #ifdef AKIF
 #endif
+
+    ll required_cards = 0;
+    ll i = 1;
+    while (required_cards <= 1e9)
+    {
+        required_cards = (i * (i + 1)) + ((i - 1) * i) / 2;
+        height.pb(required_cards);
+        i++;
+    }
+
     int test = 1;
-    // cin >> test;
+    cin >> test;
     while (test--)
     {
         solve();

@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-24 11:05:59
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -68,21 +68,33 @@ void solve()
     ll N;
     cin >> N;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
+    ll answer = 0;
+    // For Even
+    if (N % 2 == 0)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
-    }
-    cout << dp[N] - 1 << endl;
-}
+        //-1 -3 -5 ...
+        // 2...4...6
+        ll even_count = N / 2;
+        ll total_even_sum = even_count * (even_count + 1);
 
+        ll odd_count = N / 2;
+        ll total_odd_sum = odd_count * odd_count;
+
+        answer = total_even_sum - total_odd_sum;
+    }
+
+    else
+    {
+        ll even_count = N / 2;
+        ll total_even_sum = even_count * (even_count + 1);
+
+        ll odd_count = N / 2 + 1;
+        ll total_odd_sum = odd_count * odd_count;
+
+        answer = total_even_sum - total_odd_sum;
+    }
+    cout << answer << endl;
+}
 int32_t main()
 {
     ios_base::sync_with_stdio(false);
@@ -90,7 +102,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();

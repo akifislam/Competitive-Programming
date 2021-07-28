@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-15 15:54:48
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -63,24 +63,40 @@ ll hashPrime = 1610612741;
 int dx[] = {+1, -1, +0, -0};
 int dy[] = {+0, -0, +1, -1};
 
+const ll INF = 1e7;
+ll dp[1000001];
+
+ll solve(ll N)
+{
+    if (N == 0)
+    {
+        return 0;
+    }
+    if (dp[N] != -1)
+        return dp[N];
+        
+
+    ll X = N;
+    ll count = INF;
+
+    while (X != 0)
+    {
+        if (X % 10 != 0)
+        {
+            count = min(count, 1 + solve(N - (X % 10)));
+        }
+        X /= 10;
+    }
+    dp[N] = count;
+    return count;
+}
+
 void solve()
 {
+    memset(dp, -1, sizeof(dp));
     ll N;
     cin >> N;
-
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
-    {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
-    }
-    cout << dp[N] - 1 << endl;
+    cout << solve(N) << endl;
 }
 
 int32_t main()

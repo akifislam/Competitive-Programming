@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-23 20:36:46
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -68,19 +68,19 @@ void solve()
     ll N;
     cin >> N;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
-
-    dp[0] = 1;
-
-    for (int i = 1; i <= N; i++)
+    if (N % 3 == 0)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
+        cout << N / 3 << " " << N / 3 << endl;
     }
-    cout << dp[N] - 1 << endl;
+    else if (N % 3 == 2)
+    {
+        cout << N / 3 << " " << (N + 1) / 3 << endl;
+    }
+
+    else if (N % 3 == 1)
+    {
+        cout << (N / 3) + 1 << " " << N / 3 << endl;
+    }
 }
 
 int32_t main()
@@ -90,7 +90,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    cin >> test;
     while (test--)
     {
         solve();

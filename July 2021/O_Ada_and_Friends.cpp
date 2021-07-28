@@ -1,6 +1,6 @@
 //__SHERLOCK__
 //Commitment leads to action.
-//Date: 2021-07-15 18:43:40
+//Date: 2021-07-24 20:55:53
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -65,22 +65,36 @@ int dy[] = {+0, -0, +1, -1};
 
 void solve()
 {
-    ll N;
-    cin >> N;
+    ll no_of_friends, no_of_removes;
+    cin >> no_of_friends >> no_of_removes;
 
-    ll dp[N + 1];
-    memset(dp, 0, sizeof(dp));
+    map<string, ll> mp;
 
-    dp[0] = 1;
+    string name;
+    ll cost;
 
-    for (int i = 1; i <= N; i++)
+    for (ll i = 0; i < no_of_friends; i++)
     {
-        for (int j = N; j >= i; j--)
-        {
-            dp[j] += dp[j - i];
-        }
+        cin >> name >> cost;
+        mp[name] += cost;
     }
-    cout << dp[N] - 1 << endl;
+
+    vector<ll> cost_list;
+
+    for (auto x : mp)
+    {
+        cost_list.push_back(x.second);
+    }
+    sort(cost_list.begin(), cost_list.end(), greater<ll>());
+
+    ll answer = 0;
+    ll SIZE = min(no_of_removes, (ll)cost_list.size());
+
+    for (ll i = 0; i < SIZE; i++)
+    {
+        answer += cost_list[i];
+    }
+    cout << answer << endl;
 }
 
 int32_t main()
@@ -90,7 +104,7 @@ int32_t main()
 #ifdef AKIF
 #endif
     int test = 1;
-    // cin >> test;
+    // cin>>test;
     while (test--)
     {
         solve();
