@@ -1,5 +1,6 @@
 //Akif Islam (__SHERLOCK__)
-//Date: 2021-07-28 20:56:26
+//Date: 2021-07-29 10:18:38
+// Took help from the tutorials & solutions :(
 
 #include <bits/stdc++.h>
 
@@ -21,37 +22,48 @@ ostream &operator<<(ostream &os, const vector<T> &v)
 
 void solve()
 {
-    ll N;
-    cin >> N;
+    ll N, input;
+    ll max_val = 0;
+    ll sum = 0;
+    ll FREQ[100005];
 
-    vector<ll> vec;
-    vec.pb(0);
+    cin >> N;
 
     for (int i = 0; i < N; i++)
     {
-        ll input;
+        // cout << "Sum : " << sum << endl;
+        // cout << "MaxVal : " << max_val << endl;
+
         cin >> input;
-        vec.pb(input);
+
+        if (input > max_val)
+        {
+            FREQ[input] = 1;
+            sum = max_val;
+            max_val = input;
+        }
+        else if (input > sum)
+        {
+            FREQ[max_val]--;
+            sum = input;
+        }
+
+        //Print
+        // for (int i = 1; i <= 5; i++)
+        // {
+        //     cout << FREQ[i] << " ";
+        // }
+        // cout << endl;
     }
-    vec.pb(1e5 + 5);
 
-    set<ll> ans;
-
+    //Process
+    ll ans = 1;
     for (int i = 1; i <= N; i++)
     {
-        //Find Awkward item
-        if (vec[i - 1] < vec[i] && vec[i] < vec[i + 1])
-            continue;
-        else
-            ans.insert(vec[i]);
+        if (FREQ[i] < FREQ[ans])
+            ans = i;
     }
-
-    //Print Set
-    for (auto x : ans)
-    {
-        cout << x << " ";
-    }
-    cout << endl;
+    cout << ans << endl;
 }
 
 int32_t main()
