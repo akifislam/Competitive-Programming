@@ -1,6 +1,5 @@
-template<typename T> 
-// ostream& operator<<(ostream &os, const vector<T> &v) { 
-//     os << '{'; 
-//     for (const auto &x : v) os << gap << x;
-//         return os << '}'; 
+template <typename A, typename B>
+// ostream &operator<<(ostream &os, const pair<A, B> &p)
+// {
+//   return os << '(' << p.first << gap << p.second << ')';
 // }

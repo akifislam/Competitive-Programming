@@ -1,6 +1,4 @@
 //__SHERLOCK__
-// Commitment leads to action.
-// Date: 2022-01-13 13:35:19
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -14,35 +12,24 @@ char gap = 32;
 template <typename T>
 ostream &operator<<(ostream &os, const vector<T> &v)
 {
-  os << '{';
-  for (const auto &x : v)
-    os << gap << x;
-  return os << '}';
-}
-
-template <typename X, typename Y>
-ostream &operator<<(ostream &os, const map<X, Y> &v)
-{
-  cout << "Calling" << endl;
-  os << '{';
-  for (const auto &x : v)
-    os << gap << x;
-  return os << '}';
+    os << '{';
+    for (const auto &x : v)
+        os << gap << x;
+    return os << '}';
 }
 
 template <typename A, typename B>
 ostream &operator<<(ostream &os, const pair<A, B> &p)
 {
-  // cout << "Calling 2" << endl;
-  return os << '(' << p.first << gap << p.second << ')';
+    return os << '(' << p.first << gap << p.second << ')';
 }
 
 void dbg_out() { cerr << endl; }
 template <typename Head, typename... Tail>
 void dbg_out(Head H, Tail... T)
 {
-  cerr << ' ' << H;
-  dbg_out(T...);
+    cerr << ' ' << H;
+    dbg_out(T...);
 }
 
 #ifdef AKIF
@@ -53,7 +40,7 @@ void dbg_out(Head H, Tail... T)
 #define ll long long
 #define lll __int128_t
 #define pb push_back
-// #define mp make_pair
+#define mp make_pair
 #define All(x) (x).begin(), (x).end()
 #define sz(z) (int)((z).size())
 typedef pair<int, int> ii;
@@ -76,28 +63,61 @@ int dy[] = {+0, -0, +1, -1};
 
 void solve()
 {
-  map<int, double> mp;
-  mp[1] = 2;
-  mp[2] = 3;
-  mp[3] = 4;
-  mp[4] = 5;
-  for (auto x : mp)
-  {
-    cout << x;
-  }
+    int no_of_coins, target;
+    cin >> no_of_coins >> target;
+
+    vector<int> coins(no_of_coins);
+
+    for (int i = 0; i < no_of_coins; i++)
+    {
+        cin >> coins[i];
+    }
+
+    int INF = 1e6 + 5;
+
+    int dp[target + 1];
+
+    for (int i = 0; i <= target; i++)
+    {
+        dp[i] = INF;
+    }
+
+    dp[0] = 0;
+
+    for (int i = 1; i <= target; i++)
+    {
+        for (auto c : coins)
+        {
+            if (i >= c && dp[i] > dp[i - c] + 1)
+            {
+                dp[i] = dp[i - c] + 1;
+            }
+        }
+    }
+    if (dp[target] >= INF)
+    {
+        cout << -1 << endl;
+    }
+    else
+        cout << dp[target] << endl;
+
+    // for (int i = 0; i <=target; i++)
+    // {
+    //     cout << dp[i] << " ";
+    // }
 }
 
 int32_t main()
 {
-  ios_base::sync_with_stdio(false);
-  cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
 #ifdef AKIF
 #endif
-  int test = 1;
-  // cin >> test;
-  while (test--)
-  {
-    solve();
-  }
-  return 0;
+    int test = 1;
+    // cin >> test;
+    while (test--)
+    {
+        solve();
+    }
+    return 0;
 }
