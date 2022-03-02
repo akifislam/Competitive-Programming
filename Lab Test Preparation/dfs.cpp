@@ -3,6 +3,7 @@ using namespace std;
 
 vector<int> graph[1000];
 bool visited[1000];
+int no_of_nodes,no_of_edges;
 
 void DFS(int x)
 {
@@ -18,15 +19,14 @@ void DFS(int x)
 
 int main()
 {
-    graph[1].push_back(2);
-    graph[2].push_back(3);
-    graph[3].push_back(4);
-    graph[4].push_back(5);
-    graph[4].push_back(6);
-    graph[4].push_back(7);
-    graph[4].push_back(8);
-    graph[4].push_back(9);
-    graph[4].push_back(10);
+      cin >> no_of_nodes >> no_of_edges;
 
+    for (int i = 0; i < no_of_edges; i++)
+    {
+        int from, to;
+        cin >> from >> to;
+        graph[from].push_back(to);
+        graph[to].push_back(from);
+    }
     DFS(1);
 }
